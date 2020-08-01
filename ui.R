@@ -1,40 +1,39 @@
 library(shiny)
 
-img1 <- 'https://upload.wikimedia.org/wikipedia/commons/f/f5/Photos_NewYork1_032.jpg'
-img2 <- 'https://upload.wikimedia.org/wikipedia/commons/3/3e/NYSE127.jpg'
-img3 <- 'https://upload.wikimedia.org/wikipedia/commons/9/98/NYSE_opening_bell.jpg'
 vid1 <- 'https://www.youtube.com/embed/_-Zqz75r9PQ'
 
 fluidPage(
   titlePanel(
     'Efficient Frontier and Asset Allocation'
   ),
-  mainPanel(
-    tabsetPanel(
-      tabPanel('Wall Street', img(src = img1, width = '100%')),
-      tabPanel('Trading Floor', img(src = img2, width = '100%')),
-      tabPanel('Opening Bell', img(src = img3, width = '100%'))),
-    h3('Purpose and Summary'),
-    p('In modern portfolio theory, the efficient frontier (or portfolio frontier) is 
-        an investment portfolio which occupies the efficient parts of the risk-return spectrum. 
-        Formally, it is the set of portfolios which satisfy the condition that no other 
-        portfolio exists with a higher expected return but with the same standard deviation of 
-       return (i.e., the risk). The efficient frontier was first formulated by Harry Markowitz 
-       in 1952. (Wikipedia)'),
-    p(),
-    p(),
-    p(),
+  sidebarPanel(
     selectizeInput(inputId = 'abc',
-                   label = 'Index1',
-                   choices = c(1:6),
-                   selected = 1),
+                   label = 'Index_1',
+                   choices = c('US_Stocks', 'US_Bonds', 'Euro_Stocks',
+                               'Asia_Stocks', 'IG_Bonds', 'HY_Bonds'),
+                   selected = 'US_Stocks'),
     selectizeInput(inputId = 'def',
-                   label = 'Index2',
-                   choices = c(1:6),
-                   selected = 2),
+                   label = 'Index_2',
+                   choices = c('US_Stocks', 'US_Bonds', 'Euro_Stocks',
+                               'Asia_Stocks', 'IG_Bonds', 'HY_Bonds'),
+                   selected = 'US_Bonds'),
+    h3('Purpose'),
+    p('The goal is to determine the appropriate asset allocation in a hypothetical portfolio
+      made up of two risky assets. Using index returns provided by Vanguard over a thirty year
+      period, we can assess the relationship between expected return and standard deviation 
+      for a range of asset classes within equities and fixed income.'), 
+    h3('Background'),
+    p('In modern portfolio theory, the efficient frontier is an investment portfolio which 
+      occupies the efficient parts of the risk-return spectrum. Formally, it is the set of 
+      portfolios which satisfy the condition that no other portfolio exists with a higher 
+      expected return but with the same standard deviation of return. The efficient frontier 
+      was first formulated by Harry Markowitz in 1952.'),
+  ),
+  mainPanel(
+    h3('Portfolio Optimization'),
     plotOutput('frontier', width = '100%'),
     plotOutput('bargraph', width = '100%'),
-    h3('Additional Resources'),
+    h3('The Basics of Investing'),
     tags$iframe(src = vid1 , width = '560', height = '315')
-  )
+    )
 )
